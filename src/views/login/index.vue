@@ -17,7 +17,7 @@ import dayIcon from "@/assets/svg/day.svg?component";
 import darkIcon from "@/assets/svg/dark.svg?component";
 import Lock from "@iconify-icons/ri/lock-fill";
 import User from "@iconify-icons/ri/user-3-fill";
-
+import Org from "@iconify-icons/ri/order-play-line";
 defineOptions({
   name: "Login"
 });
@@ -34,8 +34,15 @@ const { title } = useNav();
 
 const ruleForm = reactive({
   username: "admin",
-  password: "admin123"
+  password: "admin123",
+  orgName: ""
 });
+
+const orgOptions = [
+  { value: "1", label: "组织1" },
+  { value: "2", label: "组织2" },
+  { value: "3", label: "组织3" }
+];
 
 const onLogin = async (formEl: FormInstance | undefined) => {
   loading.value = true;
@@ -43,7 +50,11 @@ const onLogin = async (formEl: FormInstance | undefined) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       useUserStoreHook()
-        .loginByUsername({ username: ruleForm.username, password: "admin123" })
+        .loginByUsername({
+          username: ruleForm.username,
+          password: "admin123",
+          orgName: ruleForm.orgName
+        })
         .then(res => {
           if (res.success) {
             // 获取后端路由
@@ -79,7 +90,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="select-none">
     <img :src="bg" class="wave" />
-    <div class="flex-c absolute right-5 top-3">
+    <div class="absolute flex-c right-5 top-3">
       <!-- 主题 -->
       <el-switch
         v-model="dataTheme"
@@ -138,6 +149,23 @@ onBeforeUnmount(() => {
               </el-form-item>
             </Motion>
 
+            <Motion :delay="150">
+              <el-form-item prop="password">
+                <el-select
+                  v-model="ruleForm.orgName"
+                  placeholder="请选择机构"
+                  :suffix-icon="useRenderIcon(Org)"
+                >
+                  <el-option
+                    v-for="item in orgOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </el-form-item>
+            </Motion>
+
             <Motion :delay="250">
               <el-button
                 class="w-full mt-4"
@@ -163,5 +191,9 @@ onBeforeUnmount(() => {
 <style lang="scss" scoped>
 :deep(.el-input-group__append, .el-input-group__prepend) {
   padding: 0;
+}
+
+.el-select .el-input {
+  width: 200px;
 }
 </style>

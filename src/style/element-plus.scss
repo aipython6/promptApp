@@ -3,6 +3,17 @@
   font-weight: 400 !important;
 }
 
+.el-select-dropdown__empty {
+  display: none !important;
+}
+
+.el-table .warning-row {
+  --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+.el-table .success-row {
+  --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
+
 .el-upload {
   input[type="file"] {
     display: none !important;
