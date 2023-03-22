@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
         <div class="login-form">
           <avatar class="avatar" />
           <Motion>
-            <h2 class="outline-none">{{ title }}</h2>
+            <h2 class="w-full outline-none">{{ title }}</h2>
           </Motion>
 
           <el-form
