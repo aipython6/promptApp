@@ -31,4 +31,4 @@ coverage
 build
 
 
-/database/mysql.js
+/database/mysql_config.js

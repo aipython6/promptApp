@@ -20,4 +20,4 @@ tests/**/coverage/
 *.sln
 tsconfig.tsbuildinfo
 
-/services/database/mysql.js
+/services/database/mysql_config.js
