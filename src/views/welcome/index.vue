@@ -87,7 +87,7 @@ const tableData: Inpatient[] = [
 
 <template>
   <div class="box">
-    <img src="../../images/1.jpg" alt="" />
+    <img src="../../images/bg-bat.jpg" alt="" class="w-full" />
     <div class="flex flex-row-reverse py-2">
       <el-button type="success"
         >批量导入
