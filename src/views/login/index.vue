@@ -34,7 +34,7 @@ const { title } = useNav();
 
 const ruleForm = reactive({
   username: "admin",
-  password: "admin123",
+  password: "123456admin",
   orgName: ""
 });
 
@@ -52,7 +52,7 @@ const onLogin = async (formEl: FormInstance | undefined) => {
       useUserStoreHook()
         .loginByUsername({
           username: ruleForm.username,
-          password: "admin123",
+          password: ruleForm.password,
           orgName: ruleForm.orgName
         })
         .then(res => {

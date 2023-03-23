@@ -205,6 +205,7 @@ function initRouter() {
     } else {
       return new Promise(resolve => {
         getAsyncRoutes().then(({ data }) => {
+          // console.log(data)
           handleAsyncRoutes(cloneDeep(data));
           storageSession().setItem(key, data);
           resolve(router);

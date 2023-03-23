@@ -10,6 +10,7 @@ interface User {
 }
 
 interface Inpatient {
+  date: string;
   pid: string;
   isEncode: string;
   diagnosis: string;
@@ -39,6 +40,7 @@ const handleDelete = (index: number, row: User) => {
 
 const tableData: Inpatient[] = [
   {
+    date: "2023-03-19 00:00:00",
     pid: "2023031901",
     isEncode: "已加密",
     diagnosis: "PTSD",
@@ -50,6 +52,7 @@ const tableData: Inpatient[] = [
     te: "检测设备1"
   },
   {
+    date: "2023-03-19 00:00:00",
     pid: "2023031902",
     isEncode: "已加密",
     diagnosis: "PTSD",
@@ -61,6 +64,7 @@ const tableData: Inpatient[] = [
     te: "检测设备2"
   },
   {
+    date: "2023-03-19 00:00:00",
     pid: "2023031903",
     isEncode: "已加密",
     diagnosis: "PTSD",
@@ -72,6 +76,7 @@ const tableData: Inpatient[] = [
     te: "检测设备3"
   },
   {
+    date: "2023-03-19 00:00:00",
     pid: "2023031904",
     isEncode: "已加密",
     diagnosis: "PTSD",
@@ -100,10 +105,15 @@ const tableData: Inpatient[] = [
       :row-class-name="tableRowClassName"
       class="mt-8 mb-8"
     >
-      <el-table-column label="住院号" width="150" align="center">
+      <el-table-column label="日期" width="180" align="center">
+        <template #default="scope">
+          <el-icon><timer /></el-icon>
+          <span>{{ scope.row.date }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="住院号" width="150">
         <template #default="scope">
           <div style="display: flex; align-items: center">
-            <el-icon><timer /></el-icon>
             <span style="margin-left: 10px">{{ scope.row.pid }}</span>
           </div>
         </template>

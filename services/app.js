@@ -8,7 +8,9 @@ const cors = require("cors");
 const cors_instance = require("./utils/cors");
 const token = require("./utils/token");
 
-// const authRouter = require('./routes/auth/auth')
+const authRouter = require('./routes/auth/auth')
+const dataRouter = require('./routes/data/data')
+const routerRouter = require('./routes/router/router')
 
 const app = express();
 
@@ -25,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(async (req, res, next) => {
   const url = req.url;
-  const whiteList = ["/api/auth/login", "/api/user/add"];
+  const whiteList = ["/api/auth/login", "/api/auth/addUser", "/api/router/getAsyncRoutes"];
   if (whiteList.includes(url)) {
     return next();
   } else {
@@ -44,7 +46,9 @@ app.use(async (req, res, next) => {
   }
 });
 
-// app.use('/api/auth/login', authRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/data', dataRouter);
+app.use('/api/router', routerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
