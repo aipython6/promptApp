@@ -1,4 +1,4 @@
-const dataImpl = require('../../impl/data/dataImpl')
+const dataImpl = require("../../impl/data/dataImpl");
 
 class dataService {
   constructor() {
@@ -6,8 +6,8 @@ class dataService {
   }
 
   getDataByIdAndDate(data) {
-    return this.dataService.getDataByIdAndDate(data)
+    return this.dataService.getDataByIdAndDate(data);
   }
 }
 
-module.exports = dataService
+module.exports = dataService;

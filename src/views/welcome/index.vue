@@ -1,161 +1,150 @@
 <script setup lang="ts">
-import { Delete, Edit, Upload, Timer } from "@element-plus/icons-vue";
+import { reactive, ref } from "vue";
+import { Delete, Edit, Upload } from "@element-plus/icons-vue";
+import { getPatientData } from "@/api/data";
 defineOptions({
   name: "Welcome"
 });
-interface User {
-  date: string;
-  name: string;
-  address: string;
-}
-
 interface Inpatient {
-  date: string;
-  pid: string;
-  isEncode: string;
-  diagnosis: string;
-  bp: number;
-  tc: number;
-  ams: string;
-  ebsd: string;
-  ia: string;
-  te: string;
+  patientId: number;
+  EEG: number;
+  HRV: number;
+  CBF: number;
+  MEG: number;
+  HR: number;
+  RR: number;
+  EMG: number;
+  symptom: number;
+  mentality: number;
+  QOL: number;
+  CF: number;
+  EA: number;
+  date: Date;
 }
 
-const tableRowClassName = ({ rowIndex }: { row: User; rowIndex: number }) => {
-  if (rowIndex === 1) {
-    return "warning-row";
-  } else if (rowIndex === 3) {
-    return "success-row";
-  }
-  return "";
+const dialogVisible = ref<Boolean>(false);
+
+const openDialog = (val: Boolean) => {
+  dialogVisible.value = !val;
 };
 
-const handleEdit = (index: number, row: User) => {
-  console.log(index, row);
-};
-const handleDelete = (index: number, row: User) => {
-  console.log(index, row);
+const selectDate = reactive({});
+
+const tableData: Inpatient[] = reactive<Array<Inpatient>>([]);
+const getRemoteData = async (data: Object) => {
+  const temp = await getPatientData(data);
+  console.log(temp);
 };
 
-const tableData: Inpatient[] = [
-  {
-    date: "2023-03-19 00:00:00",
-    pid: "2023031901",
-    isEncode: "已加密",
-    diagnosis: "PTSD",
-    bp: 100.1,
-    tc: 14.9,
-    ams: "良好1",
-    ebsd: "良好1",
-    ia: "检测机构1",
-    te: "检测设备1"
-  },
-  {
-    date: "2023-03-19 00:00:00",
-    pid: "2023031902",
-    isEncode: "已加密",
-    diagnosis: "PTSD",
-    bp: 98.6,
-    tc: 13.1,
-    ams: "良好2",
-    ebsd: "良好2",
-    ia: "检测机构2",
-    te: "检测设备2"
-  },
-  {
-    date: "2023-03-19 00:00:00",
-    pid: "2023031903",
-    isEncode: "已加密",
-    diagnosis: "PTSD",
-    bp: 99.2,
-    tc: 16.7,
-    ams: "良好3",
-    ebsd: "良好3",
-    ia: "检测机构3",
-    te: "检测设备3"
-  },
-  {
-    date: "2023-03-19 00:00:00",
-    pid: "2023031904",
-    isEncode: "已加密",
-    diagnosis: "PTSD",
-    bp: 100.1,
-    tc: 12.5,
-    ams: "良好4",
-    ebsd: "良好4",
-    ia: "检测机构4",
-    te: "检测设备4"
-  }
-];
+const handleEdit = (index: number, row: Inpatient) => {
+  console.log(index, row);
+};
+const handleDelete = (index: number, row: Inpatient) => {
+  console.log(index, row);
+};
 </script>
-
 <template>
+  <!-- dialog对话框 -->
+  <el-dialog v-model="dialogVisible" title="数据导入" width="30%" draggable>
+    <span>请选择需要数据源</span>
+    <img src="../../images/data.jpg" class="w-36 h-28" />
+    <span>请选择时间范围</span>
+    <el-date-picker
+      v-model="selectDate"
+      type="daterange"
+      range-separator="To"
+      start-placeholder="Start date"
+      end-placeholder="End date"
+      size="default"
+    />
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="openDialog(dialogVisible)">Cancel</el-button>
+        <el-button type="primary" @click="openDialog(dialogVisible)">
+          Confirm
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
   <div class="box">
     <img src="../../images/bg-bat.jpg" alt="" class="w-full" />
     <div class="flex flex-row-reverse py-2">
-      <el-button type="success"
+      <el-button type="success" @click="openDialog(dialogVisible)"
         >批量导入
         <el-icon class="el-icon--right"><Upload /></el-icon>
       </el-button>
     </div>
-    <el-table
-      :data="tableData"
-      style="width: 100%"
-      :row-class-name="tableRowClassName"
-      class="mt-8 mb-8"
-    >
-      <el-table-column label="日期" width="180" align="center">
+    <el-table :data="tableData" style="width: 100%" class="mt-8 mb-8">
+      <el-table-column label="日期" width="100" align="center">
         <template #default="scope">
-          <el-icon><timer /></el-icon>
           <span>{{ scope.row.date }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="住院号" width="150">
+      <el-table-column label="ID" width="50">
         <template #default="scope">
           <div style="display: flex; align-items: center">
-            <span style="margin-left: 10px">{{ scope.row.pid }}</span>
+            <span style="margin-left: 10px">{{ scope.row.patientId }}</span>
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="是否加密" width="80" align="center">
+      <el-table-column label="EEG(μV)" width="95" align="center">
         <template #default="scope">
-          <el-tag>{{ scope.row.isEncode }}</el-tag>
+          <el-tag>{{ scope.row.EEG }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="诊断" width="180" align="center">
+      <el-table-column label="HRV(ms)" width="95" align="center">
         <template #default="scope">
-          <span>{{ scope.row.diagnosis }}</span>
+          <span>{{ scope.row.HRV }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="血压" width="60" align="center">
+      <el-table-column label="脑血流量(mL/min)" width="140" align="center">
         <template #default="scope">
-          <span>{{ scope.row.bp }}</span>
+          <span>{{ scope.row.CBF }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="血脂" width="60" align="center">
+      <el-table-column label="MEG(nA/m)" width="110" align="center">
         <template #default="scope">
-          <span>{{ scope.row.bp }}</span>
+          <span>{{ scope.row.MEG }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="心里状态" width="150" align="center">
+      <el-table-column label="HR(bpm)" width="90" align="center">
         <template #default="scope">
-          <span>{{ scope.row.ams }}</span>
+          <span>{{ scope.row.HR }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="行为情绪" width="150" align="center">
+      <el-table-column label="RR(bpm)" width="90" align="center">
         <template #default="scope">
-          <span>{{ scope.row.ebsd }}</span>
+          <span>{{ scope.row.RR }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="检测机构" width="120" align="center">
+      <el-table-column label="EMG(μV)" width="90" align="center">
         <template #default="scope">
-          <span>{{ scope.row.ia }}</span>
+          <span>{{ scope.row.EMG }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="检测设备" width="120" align="center">
+      <el-table-column label="症状自评(1-10)" width="120" align="center">
         <template #default="scope">
-          <span>{{ scope.row.te }}</span>
+          <span>{{ scope.row.symptom }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="心理状态自评(1-10)" width="150" align="center">
+        <template #default="scope">
+          <span>{{ scope.row.mentality }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="生活质量自评(1-10)" width="150" align="center">
+        <template #default="scope">
+          <span>{{ scope.row.QOL }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="认知功能测试(1-10)" width="150" align="center">
+        <template #default="scope">
+          <span>{{ scope.row.CF }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="情绪评估(1-10)" width="120" align="center">
+        <template #default="scope">
+          <span>{{ scope.row.EA }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center">
