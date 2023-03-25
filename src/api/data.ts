@@ -17,6 +17,22 @@ type DataResult = {
   date: Date;
 };
 
-export const getPatientData = (data: Object) => {
-  return http.request<DataResult>("get", baseUrlApi("/data/getData"), data);
+interface dialogForm {
+  deviceId: number;
+  dateRange: string;
+}
+
+export const getPatientData = (data: dialogForm) => {
+  return http.request<Array<DataResult>>("post", baseUrlApi("data/getData"), { data });
 };
+
+type Result = {
+  success: boolean;
+  data: Array<any>;
+};
+type Pid = {
+  pid: string;
+}
+export const deletePatientByPid = (data: Pid) => {
+  return http.request<Result>("post", baseUrlApi("data/deletePatientByPid"), { data });
+}

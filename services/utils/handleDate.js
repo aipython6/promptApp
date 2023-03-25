@@ -1,4 +1,4 @@
-const moment  = require('moment')
+const moment = require('moment')
 
 const getNow = () => {
   return moment().locale('zh-cn').format('YYYY-MM-DD HH:mm:ss')
@@ -14,7 +14,11 @@ const SecondsToMinutes = second => {
   let hours = time.hours()
   let minutes = time.minutes()
   let seconds = time.seconds()
-  return moment({ h: hours, m: minutes, s:seconds }).format('HH:mm:ss')
+  return moment({ h: hours, m: minutes, s: seconds }).format('HH:mm:ss')
 }
 
-module.exports = { getNow, handleDate, SecondsToMinutes }
+const formatDate = date => {
+  return moment(date).format("YYYY-MM-DD");
+}
+
+module.exports = { getNow, handleDate, SecondsToMinutes, formatDate }

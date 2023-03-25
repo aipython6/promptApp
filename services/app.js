@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(async (req, res, next) => {
   const url = req.url;
-  const whiteList = ["/api/auth/login", "/api/auth/addUser", "/api/router/getAsyncRoutes"];
+  const whiteList = ["/api/auth/login", "/api/auth/addUser", "/api/router/getAsyncRoutes", "/api/data/getData", "/api/data/deletePatientByPid"];
   if (whiteList.includes(url)) {
     return next();
   } else {

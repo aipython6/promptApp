@@ -8,6 +8,10 @@ class dataService {
   getDataByIdAndDate(data) {
     return this.dataService.getDataByIdAndDate(data);
   }
+
+  deletePatientByPid(data) {
+    return this.dataService.deletePatientByPid(data);
+  }
 }
 
 module.exports = dataService;
