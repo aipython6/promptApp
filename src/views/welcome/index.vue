@@ -28,7 +28,12 @@ const openDialog = (val: Boolean) => {
   dialogVisible.value = !val;
 };
 
-const selectDate = reactive({});
+const selectedDate = reactive<Array<String>>([]);
+
+const dateChange = (date: String) => {
+  selectedDate.push(date);
+  console.log(selectedDate);
+};
 
 const tableData: Inpatient[] = reactive<Array<Inpatient>>([]);
 const getRemoteData = async (data: Object) => {
@@ -50,18 +55,19 @@ const handleDelete = (index: number, row: Inpatient) => {
     <img src="../../images/data.jpg" class="w-36 h-28" />
     <span>请选择时间范围</span>
     <el-date-picker
-      v-model="selectDate"
+      v-model="selectedDate"
       type="daterange"
       range-separator="To"
-      start-placeholder="Start date"
-      end-placeholder="End date"
+      start-placeholder="开始日期"
+      end-placeholder="结束日期"
       size="default"
+      @change="dateChange"
     />
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="openDialog(dialogVisible)">Cancel</el-button>
+        <el-button @click="openDialog(dialogVisible)">取消</el-button>
         <el-button type="primary" @click="openDialog(dialogVisible)">
-          Confirm
+          确定
         </el-button>
       </span>
     </template>
