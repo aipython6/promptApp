@@ -17,7 +17,6 @@ import dayIcon from "@/assets/svg/day.svg?component";
 import darkIcon from "@/assets/svg/dark.svg?component";
 import Lock from "@iconify-icons/ri/lock-fill";
 import User from "@iconify-icons/ri/user-3-fill";
-import Org from "@iconify-icons/ri/order-play-line";
 defineOptions({
   name: "Login"
 });
@@ -37,12 +36,6 @@ const ruleForm = reactive({
   password: "123456admin",
   orgName: ""
 });
-
-const orgOptions = [
-  { value: "1", label: "组织1" },
-  { value: "2", label: "组织2" },
-  { value: "3", label: "组织3" }
-];
 
 const onLogin = async (formEl: FormInstance | undefined) => {
   loading.value = true;
@@ -146,23 +139,6 @@ onBeforeUnmount(() => {
                   placeholder="密码"
                   :prefix-icon="useRenderIcon(Lock)"
                 />
-              </el-form-item>
-            </Motion>
-
-            <Motion :delay="150">
-              <el-form-item prop="password">
-                <el-select
-                  v-model="ruleForm.orgName"
-                  placeholder="请选择机构"
-                  :suffix-icon="useRenderIcon(Org)"
-                >
-                  <el-option
-                    v-for="item in orgOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  />
-                </el-select>
               </el-form-item>
             </Motion>
 

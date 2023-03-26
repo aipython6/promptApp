@@ -4,7 +4,7 @@ const dataService = require('../../models/service/data/dataService');
 const { formatDate } = require("../../utils/handleDate");
 router.post('/getData', async (req, res) => {
   const { deviceId, dateRange } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   const ds = new dataService();
   const data = await ds.getDataByIdAndDate({ did: Number.parseInt(deviceId), start: dateRange[0], end: dateRange[1] });
   const result = data.map(e => {
